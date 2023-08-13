@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-2</title>
+</head>
+<body>
+    <h3>
+        Створити службове авто (водій, марка, номер). Створити клас таким чином, щоб можна було створити тільки один екземпляр цього класу.
+    </h3>
+
+    <script>
+
+        //1.Вводимо даннi
+        class Car {
+            constructor(driver, brand, number) {
+                this.driver = driver
+                this.brand = brand
+                this.number = number
+            }
+            toString() {
+                return `Driver: ${this.driver}, Brand: ${this.brand}, Number: ${this.number}<hr>`
+            }
+        }
+
+        class SingletonCar {
+            constructor(driver, brand, number) {
+                if (!SingletonCar.instance) {
+                    SingletonCar.instance = new Car(driver, brand, number)
+                }
+                return SingletonCar.instance
+            }
+        }
+
+        //3.Виводимо результат
+        let firstCar = new SingletonCar("John", "Toyota", "ABC123")
+        let secondCar = new SingletonCar("Alice", "Ford", "XYZ789")
+        document.write(`<hr>`)
+        document.write(`<h3>${firstCar.toString()}</h3>`)
+        document.write(`<h3>${secondCar.toString()}</h3>`)
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-4</title>
+</head>
+<body>
+    <h4>
+        Особиста бібліотека. <br> Картотека домашньої бібліотеки: дані книги (автори (піб, рік народження, короткий опис), назва книги, жанр, видавництво (назва, реєстраційний номер, рік засування)). <br> Реалізувати розділи бібліотеки, організувати додавання/вилучення книг та  вибір книг за назвою, за ПІБ автора, за видавництвом.
+    </h4>
+
+    <script>
+
+        class Library {
+            constructor(title) {
+                this.title = title
+                this.books = []
+            }
+
+            addBook(book) {
+                this.books.push(book)
+            }
+
+            removeBookByTitle(bookTitle) {
+                this.books = this.books.filter(book => book.title !== bookTitle)
+            }
+
+            filterByTitle(bookTitle) {
+                return this.books.filter(book => book.title === bookTitle)
+            }
+
+            filterByAuthorName(authorName) {
+                return this.books.filter(book => book.author.name === authorName)
+            }
+
+            filterByPublishingName(publishingTitle) {
+                return this.books.filter(book => book.publishing.title === publishingTitle)
+            }
+            sortBooksByTitle() {
+                this.books.sort((a, b) => a.title.localeCompare(b.title))
+            }
+        }
+
+        class Book {
+            constructor(author, title, genre, publishing) {
+                this.author = author
+                this.title = title
+                this.genre = genre
+                this.publishing = publishing
+            }
+        }
+
+        class Author {
+            constructor(name, yearOfBirth, description) {
+                this.name = name
+                this.yearOfBirth = yearOfBirth
+                this.description = description
+            }
+        }
+
+        class Publishing {
+            constructor(title, zipCode, yearFoundation) {
+                this.title = title
+                this.zipCode = zipCode
+                this.yearFoundation = yearFoundation
+            }
+        }
+
+        const author1 = new Author("J.K. Rowling", 1965, "British author known for the Harry Potter series.")
+        const author2 = new Author("George Orwell", 1903, "English novelist and essayist, known for his dystopian novel '1984'.")
+        const author3 = new Author("Agatha Christie", 1890, "English writer known for her detective novels.")
+
+        const publishing1 = new Publishing("Bloomsbury Publishing", "WC1B 3DG", 1986)
+        const publishing2 = new Publishing("Secker & Warburg", "WC2R 0RL", 1936)
+        const publishing3 = new Publishing("Collins Crime Club", "SW1A 1AA", 1930)
+
+        const book1 = new Book(author1, "Harry Potter and the Philosopher's Stone", "Fantasy", publishing1)
+        const book2 = new Book(author2, "1984", "Dystopian", publishing2);
+        const book3 = new Book(author3, "Murder on the Orient Express", "Mystery", publishing3)
+
+        const library = new Library("My Personal Library")
+        library.addBook(book1)
+        library.addBook(book2)
+        library.addBook(book3)
+
+        document.write(`<h3>${library.title}</h3>`)
+
+        const newBook = new Book(author1, "New Book Title", "New Genre", publishing2)
+        library.addBook(newBook)
+
+        library.removeBookByTitle("New Book Title")
+
+        const newBook2 = new Book(author1, "Another New Book", "New Genre", publishing2)
+        library.addBook(newBook2)
+
+        library.sortBooksByTitle()
+
+        library.books.forEach(book => {
+            document.write("<hr>")
+            document.write(`<h3>${book.title}</h3>`)
+            document.write(`<h4><strong>Author:</strong>${book.author.name}</h4>`)
+            document.write(`<h4><strong>Genre:</strong>${book.genre}</h4>`)
+            document.write(`<h4><strong>Publishing:</strong>${book.publishing.title}</h4>`)
+        });
+
+    </script>
+</body>
+</html>
+
+<!-- // toString() {
+    //     return `Author: ${this.author.name} (${this.author.yearOfBirth}) - ${this.author.description}\nTitle: ${this.title}\nGenre: ${this.genre}\nPublishing: ${this.publishing.title} (${this.publishing.zipCode}, ${this.publishing.yearFoundation})`
+
+//------------------------------------------------
+            // // 1. Вводимо дані
+        // class Book {
+        //     constructor(author, title, genre, publishing) {
+        //         this.author = author
+        //         this.title = title
+        //         this.genre = genre
+        //         this.publishing = publishing
+        //     }
+        // }
+
+        // class Author {
+        //     constructor(name, yearOfBirth, description) {
+        //         this.name = name
+        //         this.yearOfBirth = yearOfBirth
+        //         this.description = description
+        //     }
+        // }
+
+        // class Publishing {
+        //     constructor(title, zipCode, yearFoundation) {
+        //         this.title = title
+        //         this.zipCode = zipCode
+        //         this.yearFoundation = yearFoundation
+        //     }
+        // }
+
+        // class Library {
+        //     constructor(title, bookList) {
+        //         this.title = title
+        //         this.bookList = bookList
+        //     }
+
+        //     addBookByAuthorName(authorName) {
+        //         const authorBooks = this.bookList.filter(book => book.author.name === authorName)
+
+        //         if (authorBooks.length > 0) {
+        //             const newBook = new Book(authorBooks[0].author, "New Book Title", "New Genre", authorBooks[0].publishing)
+        //             this.bookList.push(newBook)
+        //         } else {
+        //             console.log("Нема такого автора")
+        //         }
+        //     }
+
+        //     addBookByPublishingTitle(publishingTitle, author, title, genre) {
+        //         const publishingBooks = this.bookList.filter(book => book.publishing.title === publishingTitle)
+
+        //         if (publishingBooks.length > 0) {
+        //             const newBook = new Book(author, title, genre, publishingBooks[0].publishing)
+        //             this.bookList.push(newBook)
+        //         } else {
+        //             console.log("Нема такого видавництва")
+        //         }
+        //     }
+
+        //     removeBookByTitle(bookTitle) {
+        //         this.bookList = this.bookList.filter(book => book.title !== bookTitle)
+        //     }
+
+        //     filterByTitle(bookTitle) {
+        //         //return this.bookList.filter(book => book.title === bookTitle)
+        //         return this.bookList.filter(book => book.title.includes(bookTitle))
+        //     }
+
+        //     filterByAuthorName(authorName) {
+        //         return this.bookList.filter(book => book.author.name === authorName)
+        //     }
+
+        //     filterByPublishingName(publishingTitle) {
+        //         return this.bookList.filter(book => book.publishing.title === publishingTitle)
+        //     }
+        // }
+
+        // // 3. Виводимо результат
+        // const author1 = new Author("J.K. Rowling", 1965, "British author known for the Harry Potter series.")
+        // const author2 = new Author("George Orwell", 1903, "English novelist and essayist, known for his dystopian novel '1984'.")
+        // const author3 = new Author("Agatha Christie", 1890, "English writer known for her detective novels.")
+
+        // const publishing1 = new Publishing("Bloomsbury Publishing", "WC1B 3DG", 1986)
+        // const publishing2 = new Publishing("Secker & Warburg", "WC2R 0RL", 1936)
+        // const publishing3 = new Publishing("Collins Crime Club", "SW1A 1AA", 1930)
+
+        // const book1 = new Book(author1, "Harry Potter and the Philosopher's Stone", "Fantasy", publishing1)
+        // const book2 = new Book(author2, "1984", "Dystopian", publishing2)
+        // const book3 = new Book(author3, "Murder on the Orient Express", "Mystery", publishing3)
+
+        // const library = new Library("My Personal Library", [book1, book2, book3])
+
+        // document.write(`<h3>${library.title}</h3>`)
+        // library.addBookByAuthorName("George Orwell") //Додає за ПІБ автора.
+        // library.removeBookByTitle("New Book Title") // Видалити за назвою "New Book Title".
+        // library.addBookByPublishingTitle("Secker & Warburg", author1, "New Book Title", "New Genre") //Додає за назвою видавництва.
+
+        // library.bookList.forEach(book => {
+        //     document.write("<hr>")
+        //     document.write(`<h3>${book.title}</h3>`)
+        //     document.write(`<h4><strong>Author:</strong>${book.author.name}</h4>`)
+        //     document.write(`<h4><strong>Genre:</strong>${book.genre}</h4>`)
+        //     document.write(`<h4><strong>Publishing:</strong>${book.publishing.title}</h4>`)
+        // })
+//------------------------------------------------
+
+    // } -->

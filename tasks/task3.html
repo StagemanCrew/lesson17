@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-3</title>
+</head>
+<body>
+    <h3>
+        Створити клас Нагадувач. Кожні вказані кількості секунд (використати setInterval) програма нагадує про якусь подію (це просто текст) і також виводиться порядковий номер скільки раз вже нагадування було. Зробити так, щоб неможна було зробити одночасно декілька об’єктів-нагадувачів. Методи зупинки таймера, метод зміни повідомлення без зупинки таймера.
+    </h3>
+
+    <script>
+
+        //1.Вводимо даннi
+        class Reminder {
+            static interval = 2000
+
+            constructor(message) {
+                this.message = message
+                this.reminderCount = 0
+                this.timerId = null
+            }
+
+            start() {
+                if (!this.timerId) {
+                    this.timerId = setInterval(() => {
+                        this.reminderCount++
+                        document.write(`<h4>${this.reminderCount}: ${this.message}</h4>`)
+                    }, Reminder.interval)
+                }
+            }
+
+            stop() {
+                if (this.timerId) {
+                    clearInterval(this.timerId)
+                    this.timerId = null
+                }
+            }
+
+            changeMessage(newMessage) {
+                this.message = newMessage
+            }
+        }
+
+        function changeMessage(callback, delay) {
+            setTimeout(callback, delay)
+        }
+
+        //3.Виводимо результат
+        let firstReminder = new Reminder('Hello')
+        firstReminder.start()
+        let nextReminder = new Reminder('World')
+        nextReminder.start()
+
+        changeMessage(() => {
+            firstReminder.stop()
+            nextReminder.stop()
+            firstReminder.changeMessage('Bye, Dear friend!!')
+            firstReminder.start()
+        }, 6000)
+
+        changeMessage(() => {
+            firstReminder.stop()
+        }, 12020)
+
+    </script>
+</body>
+</html>
